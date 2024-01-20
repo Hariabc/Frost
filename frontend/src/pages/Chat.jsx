@@ -26,11 +26,13 @@ CometChatUIKit.init(UIKitSettings).then(() => {
 const Chat = () => {
 
  return (
-      	<CometChatUsersWithMessages />
+    <div className="app" style={{height:"100vh"}}>
+        <CometChatUsersWithMessages />
+    </div>
 	);
 }
 
-const UID = "superhero1"; //Replace with your UID
+const UID = "teacher1"; //Replace with your UID
 
 CometChatUIKit.getLoggedinUser().then((user) => {
   if (!user) {
