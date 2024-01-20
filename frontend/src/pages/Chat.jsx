@@ -30,7 +30,7 @@ const Chat = () => {
 	);
 }
 
-const UID = "superhero1"; //Replace with your UID
+const UID = "student1"; //Replace with your UID
 
 CometChatUIKit.getLoggedinUser().then((user) => {
   if (!user) {
