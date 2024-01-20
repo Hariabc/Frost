@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';  // Import Link from react-router-dom
 import { useEffect } from "react";
 import axios from 'axios';
 import "./pages.css"
+import Chat from "./Chat.jsx";
 
 const StudentDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<HomeDashboard/>);
@@ -42,33 +43,6 @@ const StudentDashboard = () => {
     const closeComponents = () => {
       setSelectedComponent(null);
     };
-  
-    const handleLogout = async () => {
-      try {
-        // Make a request to the logout endpoint
-        await axios.post('http://localhost:5000/client/logout', null, {
-          withCredentials: true,
-        });
-        navigate("/login")
-        
-      } catch (error) {
-        console.error('Error during logout:', error);
-      }
-    };
-  
-    useEffect(() => {
-      const fetchUserData = async () => {
-        try {
-          const response = await axios.get('http://localhost:5000/client/user', { withCredentials: true });
-          setUserData(response.data.user);
-          setSelectedComponent(<BriefcaseDashboard />);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
-  
-      fetchUserData();
-    }, []);
   
     return (
       <div className="dashboard-container">
@@ -118,7 +92,7 @@ const StudentDashboard = () => {
             <div className="notification-icon">
               <IoNotificationsOutline size={30} style={{color:'white'}} />
               <div className="logout-button" style={{paddingLeft:"20px"}}> 
-              <button onClick={handleLogout}>Logout</button>
+              <button>Logout</button>
             </div>
             </div>
           </div>
