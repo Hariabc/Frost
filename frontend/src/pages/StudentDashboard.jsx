@@ -6,6 +6,7 @@ import { RiMenu2Fill } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { BsChatDots } from "react-icons/bs";
 import { MdHelpOutline } from "react-icons/md";
+import { FiVideo } from "react-icons/fi";
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';  // Import Link from react-router-dom
@@ -38,6 +39,10 @@ const StudentDashboard = () => {
     const handleFaqClick = () => {
       setSelectedComponent(<RenderFaq />);
       setActiveIcon('faq');
+    };
+    const handleVideoClick = () => {
+      setSelectedComponent(<LiveClass/>);
+      setActiveIcon('video');
     };
 
     const closeComponents = () => {
@@ -82,6 +87,12 @@ const StudentDashboard = () => {
             style={{ paddingTop: '15px', cursor: 'pointer' }}
             className={activeIcon === 'faq' ? 'active' : ''}
             onClick={handleFaqClick}        />
+          <FiVideo
+            size={40}
+            color="#fff"
+            style={{ paddingTop: '15px', cursor: 'pointer' }}
+            className={activeIcon === 'video' ? 'active' : ''}
+            onClick={handleVideoClick}/>
         </div>
   
         <div className="main-content">
