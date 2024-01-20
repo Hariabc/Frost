@@ -40,29 +40,31 @@ const LoginPage = () => {
         <img src={left} alt="" className='login-home-img'/>
       </div>
     <div className="login-page">
-      <h2 style={{marginBottom:"20px"}}>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='login-form'>
+      <h2 style={{marginBottom:"20px",textAlign:'center'}}>Login</h2>
         <label>
-          Username:
+         <h2>Username:</h2>
         </label>
           <input
             type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
+            className='form-input'
           />
         <br />
         <label>
-          Password:
+          <h2>Password:</h2>
         </label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
+            className='form-input'
           />
         <br />
-        <button type="submit">Login</button>
+        <button type="submit" className='login-button'>Login</button>
       </form>
     </div>
     </div>
