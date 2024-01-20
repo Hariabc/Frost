@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import axios from 'axios';
 import "./pages.css"
 
-const StudentDashboard = () => {
+const TeacherDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<HomeDashboard/>);
     const [userData, setUserData] = useState({});
     const [activeIcon, setActiveIcon] = useState('briefcase'); // Add state for active icon
@@ -133,11 +133,14 @@ const StudentDashboard = () => {
   };
   
 
-export default StudentDashboard;
+export default TeacherDashboard;
 
 const HomeDashboard=()=>{
     return(
+      <>
         <h1>Teacher</h1>
+        <SubjectList/>
+      </>
     )
 }
 const Profile=()=>{
@@ -145,3 +148,68 @@ const Profile=()=>{
         <h1>Profile</h1>
     )
 }
+
+
+const subjectsData = [
+  {
+    name: 'Math',
+    units: [
+      {
+        number: 1,
+        topics: ['Algebra', 'Geometry', 'Trigonometry'],
+      },
+      {
+        number: 2,
+        topics: ['Calculus', 'Statistics', 'Linear Algebra'],
+      },
+    ],
+  },
+];
+
+const SubjectList = () => {
+  const [selectedUnit, setSelectedUnit] = useState(null);
+
+  const handleUnitClick = (unitNumber) => {
+    setSelectedUnit(unitNumber);
+  };
+
+  const handleUpdateContent = (topic) => {
+    // Implement your logic for updating content here
+    console.log(`Updating content for ${topic}`);
+  };
+
+  return (
+    <div className="subject-list">
+      {subjectsData.map((subject) => (
+        <div key={subject.name} className="subject">
+          <h2 className="subject-name">{subject.name}</h2>
+          <ul className="unit-list">
+            {subject.units.map((unit) => (
+              <li key={unit.number} className="unit">
+                <button
+                  onClick={() => handleUnitClick(unit.number)}
+                  className={`unit-buttonT ${selectedUnit === unit.number ? 'selected' : ''}`}
+                  style={{width:"auto"}}
+                >
+                  Unit {unit.number}
+                </button>
+                {selectedUnit === unit.number && (
+                  <ul className="topic-list">
+                    {unit.topics.map((topic) => (
+                      <li key={topic} className="topic">
+                        {topic}
+                        <button onClick={() => handleUpdateContent(topic)} className="update-button">
+                          Update Content
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+};
