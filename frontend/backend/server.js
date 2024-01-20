@@ -15,7 +15,7 @@ app.use(cors({
   credentials: true, // Enable credentials (if required)
 }));
 
-const uri = "mongodb+srv://venumadhav821:Venu21@hackathon.aobrttr.mongodb.net/Database?retryWrites=true&w=majority";
+const uri = "mongodb+srv://venumadhav821:Venu21@hackathon.aobrttr.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(express.json());
 
