@@ -1,16 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './pages.css';
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Perform authentication logic here
+    console.log('Submitted data:', formData);
+
+    // Simulate successful login
+    const userType = 'student';
+
+    // Redirect based on user type using useNavigate
+    if (userType === 'teacher') {
+      navigate('/teacher');
+    } else if (userType === 'student') {
+      navigate('/student');
+    }
+  };
+
   return (
-    <div><PasswordField/></div>
-  )
-}
+    <div className="login-page">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+        </label>
+        <br />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
 
-const PasswordField = () => {
-    return (
-      <div className="field">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password"/>
-      </div>
-    )
-  }
+export default LoginPage;
