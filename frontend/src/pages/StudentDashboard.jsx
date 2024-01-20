@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import axios from 'axios';
 import "./pages.css"
 import Chat from "./Chat.jsx";
+import LiveClass from "./LiveClass.jsx";
 
 const StudentDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<HomeDashboard/>);
