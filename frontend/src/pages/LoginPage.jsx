@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './pages.css';
+import './login.css';
 import left from "../assets/login-home.jpg"
 const LoginPage = () => {
   const navigate = useNavigate();
