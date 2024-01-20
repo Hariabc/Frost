@@ -15,6 +15,7 @@ import axios from 'axios';
 import "./pages.css"
 import Chat from "./Chat.jsx";
 import LiveClass from "./LiveClass.jsx";
+import student from '../assets/student.png'
 
 const StudentDashboard = () => {
     const [selectedComponent, setSelectedComponent] = useState(<HomeDashboard/>);
@@ -54,7 +55,7 @@ const StudentDashboard = () => {
       <div className="dashboard-container">
         <div className="sidebar">
           <img
-            src=""
+            src={student}
             alt="hari"
             style={{
               width: '50px',
@@ -104,7 +105,7 @@ const StudentDashboard = () => {
             <div className="notification-icon">
               <IoNotificationsOutline size={30} style={{color:'white'}} />
               <div className="logout-button" style={{paddingLeft:"20px"}}> 
-              <button>Logout</button>
+              <button style={{padding:"10px",width:"150px",borderRadius:"4px"}}>Logout</button>
             </div>
             </div>
           </div>
@@ -135,19 +136,43 @@ const Profile=()=>{
 const UnitComponent = () => {
   const unitsData = {
     unit1: {
-      topics: ['Topic 1.1', 'Topic 1.2', 'Topic 1.3'],
-      content: 'Sample PDF for Unit 1',
+      topics: [
+        { title: 'Topic 1.1', content: 'hi' },
+        { title: 'Topic 1.2', content: 'URL_TO_PDF_1_2' },
+        { title: 'Topic 1.3', content: 'URL_TO_PDF_1_3' },
+      ],
       videoUrl: 'https://www.youtube.com/embed/sample_video_id',
+      quiz: {
+        question: 'What is the capital of France?',
+        options: ['Paris', 'Berlin', 'London', 'Madrid'],
+        correctAnswer: 'Paris',
+      },
     },
     unit2: {
-      topics: ['Topic 2.1', 'Topic 2.2', 'Topic 2.3'],
-      content: 'Sample PDF for Unit 2',
+      topics: [
+        { title: 'Topic 2.1', content: 'URL_TO_PDF_2_1' },
+        { title: 'Topic 2.2', content: 'URL_TO_PDF_2_2' },
+        { title: 'Topic 2.3', content: 'URL_TO_PDF_2_3' },
+      ],
       videoUrl: 'https://www.youtube.com/embed/sample_video_id',
+      quiz: {
+        question: 'What is the capital of Germany?',
+        options: ['Paris', 'Berlin', 'London', 'Madrid'],
+        correctAnswer: 'Berlin',
+      },
     },
     unit3: {
-      topics: ['Topic 3.1', 'Topic 3.2', 'Topic 3.3'],
-      content: 'Sample PDF for Unit 3',
+      topics: [
+        { title: 'Topic 3.1', content: 'URL_TO_PDF_3_1' },
+        { title: 'Topic 3.2', content: 'URL_TO_PDF_3_2' },
+        { title: 'Topic 3.3', content: 'URL_TO_PDF_3_3' },
+      ],
       videoUrl: 'https://www.youtube.com/embed/sample_video_id',
+      quiz: {
+        question: 'What is the capital of the United Kingdom?',
+        options: ['Paris', 'Berlin', 'London', 'Madrid'],
+        correctAnswer: 'London',
+      },
     },
   };
 
@@ -158,32 +183,32 @@ const UnitComponent = () => {
   const handleOptionClick = (option) => {
     setSelectedOption(option);
   };
-return (
+
+  return (
     <div className="container">
       <div className="unit-container">
-        <h1 style={{color:"black"}}>Units</h1>
+        <h1 style={{ color: 'black', marginBottom: '20px', marginLeft: 'none' }}>Units</h1>
         {Object.keys(unitsData).map((unit) => (
           <button key={unit} className="unit-button" onClick={() => setSelectedUnit(unit)}>
             {unit}
           </button>
         ))}
       </div>
-  
       <div className="topic-container">
-        <h2>Topics</h2>
+        <h2 style={{ marginBottom: '20px' }}>Topics</h2>
         {selectedUnit && (
           <ul className="topic-list">
             {unitsData[selectedUnit].topics.map((topic) => (
-              <li key={topic} className="topic-item" onClick={() => setSelectedTopic(topic)}>
-                {topic}
+              <li key={topic.title} className="topic-item" onClick={() => setSelectedTopic(topic)}>
+                {topic.title}
               </li>
             ))}
           </ul>
         )}
-  
+
         {selectedTopic && (
           <div>
-            <h3 className="topic-heading">Selected Topic: {selectedTopic}</h3>
+            <h3 className="topic-heading">Selected Topic: {selectedTopic.title}</h3>
             <div className="options-container">
               <button className="option-button" onClick={() => handleOptionClick('Read Content')}>
                 Read Content
@@ -197,19 +222,57 @@ return (
             </div>
           </div>
         )}
-  
-        {selectedOption && (
+
+        {selectedOption === 'Take Quiz' && selectedTopic && (
+          <div>
+            <h2 className="topic-heading-quiz" style={{padding:"20px 0"}}>Quiz Question:</h2>
+            <p style={{fontSize:"30px"}}>{unitsData[selectedUnit].quiz.question}</p>
+
+            <form>
+              {unitsData[selectedUnit].quiz.options.map((option) => (
+                <div key={option} className="quiz-option" style={{padding:"10px"}}>
+                  <input
+                    type="radio"
+                    id={option}
+                    name="quizOption"
+                    value={option}
+                    checked={selectedTopic.content === option}
+                    onChange={() => setSelectedTopic({ ...selectedTopic, content: option })}
+                    style={{paddingLeft:"10px"}}
+                  />
+                  <label htmlFor={option} style={{display:"inline",fontSize:"20px"}}>{option}</label>
+                </div>
+              ))}
+            </form>
+
+            <button className="quiz-submit-button" onClick={() => handleOptionClick('Submit Quiz')}>
+              Submit Quiz
+            </button>
+          </div>
+        )}
+
+        {selectedOption === 'Submit Quiz' && (
           <div className="content-container">
-            {selectedOption === 'Read Content' && (
-              <iframe className="iframe-container" title="PDF" src={unitsData[selectedUnit].videoUrl} />
-              )}
-            {selectedOption === 'Watch Video' && (
-              <iframe className="iframe-container" title="YouTube Video" src={unitsData[selectedUnit].videoUrl} />
-            )}
+            <p>
+              Your answer is{' '}
+              {selectedTopic.content === unitsData[selectedUnit].quiz.correctAnswer ? 'correct!' : 'incorrect.'}
+            </p>
+          </div>
+        )}
+
+        {selectedOption === 'Read Content' && (
+          <div className="content-container">
+            <p>{selectedTopic.content}</p>
+          </div>
+        )}
+
+        {selectedOption === 'Watch Video' && (
+          <div className="content-container">
+            <iframe className="iframe-container" title="YouTube Video" src={unitsData[selectedUnit].videoUrl} />
           </div>
         )}
       </div>
     </div>
   );
-  
 };
+
