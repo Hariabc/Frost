@@ -1,6 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import Teacher from '../models/teacher.js';
+import jwt from "jsonwebtoken";
+import cookie from 'cookie-parser';
+router.use(cookie());
 import authenticateToken from '../middleware/teacherAuthMiddleware.js';
 
 router.post('/register-teacher', async (req, res) => {
@@ -52,11 +55,9 @@ router.post('/register-teacher', async (req, res) => {
         maxAge: 100000000
       });
       
-      return res.status(200).json({ message: 'Login successful'});
+      res.status(200).json({ userType: 'teacher', message: 'Login successful' });
       
-      // console.log(token)
-      // res.send(req.rootUser)
-      return res.status(200).json({ message: 'Login successful'});
+      
       
     } catch (err) {
       // Handle errors

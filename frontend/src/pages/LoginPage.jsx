@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
+import axios from "axios";
 import left from "../assets/login-home.jpg"
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -18,19 +19,29 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform authentication logic here
-    console.log('Submitted data:', formData);
-
-    // Simulate successful login
-    const userType = 'student';
-
-    // Redirect based on user type using useNavigate
-    if (userType === 'teacher') {
-      navigate('/teacher');
-    } else if (userType === 'student') {
-      navigate('/student');
+  
+    try {
+      const response = await axios.post('http://localhost:3000/student/login', {
+        username: formData.username,
+        password: formData.password,
+      },{
+        withCredentials: true, // Add this option
+        credentials : 'include',
+      });
+  
+      const userType = response.data.userType;
+  
+      // Redirect based on user type using useNavigate
+      if (userType === 'teacher') {
+        navigate('/teacher');
+      } else if (userType === 'student') {
+        navigate('/student');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle login error, show an error message to the user, etc.
     }
   };
 

@@ -1,6 +1,10 @@
 import express from 'express';
 const router = express.Router();
+import bcrypt from 'bcrypt';
 import Student from '../models/student.js';
+import jwt from "jsonwebtoken";
+import cookie from 'cookie-parser';
+router.use(cookie());
 import authenticateToken from '../middleware/studentAuthMiddleware.js';
 
 
@@ -29,12 +33,12 @@ router.post('/register-student', async (req, res) => {
       const { username, password } = req.body;
   
       // Find the client by email in the database
-      const student = await Student.findOne({ email });
+      const student = await Student.findOne({ username });
   
       if (!student) {
         return res.status(404).json({ error: 'Student not found' });
       }
-  
+       
       // Compare the provided password with the stored hashed password
       const passwordMatch = await bcrypt.compare(password, student.password);
   
@@ -50,11 +54,11 @@ router.post('/register-student', async (req, res) => {
       
       res.cookie("jwtoken", token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 100000000
       });
       
-      return res.status(200).json({ message: 'Login successful'});
+      res.status(200).json({ userType: 'student', message: 'Login successful' });
       
       // console.log(token)
       // res.send(req.rootUser)

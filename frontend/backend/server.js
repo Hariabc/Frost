@@ -7,7 +7,7 @@ import teacherRouter from './routers/teacherRoutes.js';
 
 
 const app = express();
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 3000;
 
 app.use(cors({
   origin: 'http://localhost:5173', // Change this to your React app's URL
